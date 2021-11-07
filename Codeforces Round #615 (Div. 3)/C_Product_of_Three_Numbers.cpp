@@ -6,7 +6,7 @@ const int INF = 0x3f3f3f3f;
 const ll LINF = 0x3f3f3f3f3f3f3f3fll;
 using vi = vector<int>;
 using vll = vector<ll>;
-const int MAXN = 2e2+7;
+const int MAXN = 2e5+7;
 const int MOD = 1e9 + 7;
     
 #define pb push_back
@@ -28,8 +28,21 @@ const int dx[] = {-1, 0, 1, 0, -1, -1, 1, 1};
 const int dy[] = {0, 1, 0, -1, -1, 1, -1, 1};
     
 //interactive problems use *fflush(stdout);* at the end of the function; and delete the first line of the main fuction
+set<int> trial_division1(int n) {
+    set<int> factorization;
+    int k = 0;
+    for (int d = 2; d * d <= n && k < 2; d++) {
+        if(n % d == 0) {
+            k++;
+            factorization.insert(d);
+            n /= d;
+        }
+    }
+    if (n > 1)
+        factorization.insert(n);
+    return factorization;
+}
 int t;
-int v[MAXN];
 int main(){
    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
    //freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
@@ -37,14 +50,19 @@ int main(){
    while(t--){
        int n;
        cin>>n;
-       for(int i=1;i<=n;i++){
-           cin>>v[i];
+       set<int> a = trial_division1(n);
+       if(sz(a) >= 3){
+           cout<<"YES"<<endl;
+           int p = 0;
+           for(auto x : a){
+               p++;
+               if(p>3) break;
+               cout<<x<<" ";
+           }
+           cout<<endl;
+       }else{   
+           cout<<"NO"<<endl;
        }
-       int mx = 0;
-       for(int i=1;i<=n;i++){
-           mx = max(mx,v[i]-i);
-       }
-       cout<<mx<<endl;
    }
    return 0;
 }

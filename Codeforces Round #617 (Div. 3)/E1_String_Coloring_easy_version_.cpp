@@ -6,7 +6,7 @@ const int INF = 0x3f3f3f3f;
 const ll LINF = 0x3f3f3f3f3f3f3f3fll;
 using vi = vector<int>;
 using vll = vector<ll>;
-const int MAXN = 2e2+7;
+const int MAXN = 2e5+7;
 const int MOD = 1e9 + 7;
     
 #define pb push_back
@@ -28,23 +28,27 @@ const int dx[] = {-1, 0, 1, 0, -1, -1, 1, 1};
 const int dy[] = {0, 1, 0, -1, -1, 1, -1, 1};
     
 //interactive problems use *fflush(stdout);* at the end of the function; and delete the first line of the main fuction
-int t;
-int v[MAXN];
 int main(){
-   ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
-   //freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
-   cin>>t;
-   while(t--){
-       int n;
-       cin>>n;
-       for(int i=1;i<=n;i++){
-           cin>>v[i];
-       }
-       int mx = 0;
-       for(int i=1;i<=n;i++){
-           mx = max(mx,v[i]-i);
-       }
-       cout<<mx<<endl;
+	int n;
+	string s;
+	cin >> n >> s;
+	vector<int> maxdp(26);
+	vector<int> dp(n, 1);
+	for (int i = 0; i < n; ++i) {
+		for (int c = 25; c > s[i] - 'a'; --c) {
+			dp[i] = max(dp[i], maxdp[c] + 1);
+		}
+		maxdp[s[i] - 'a'] =  max(maxdp[s[i] - 'a'], dp[i]);
+	}
+	int k = *max_element(maxdp.begin(), maxdp.end());
+   if(k > 2){
+      cout<<"NO"<<endl;
+      return 0;
+   }else{
+      cout<<"YES"<<endl;
    }
-   return 0;
+	for (int i = 0; i < n; ++i) cout << --dp[i];
+	cout << endl;
+	
+	return 0;
 }

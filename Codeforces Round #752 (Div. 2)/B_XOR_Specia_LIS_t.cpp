@@ -6,7 +6,7 @@ const int INF = 0x3f3f3f3f;
 const ll LINF = 0x3f3f3f3f3f3f3f3fll;
 using vi = vector<int>;
 using vll = vector<ll>;
-const int MAXN = 2e2+7;
+const int MAXN = 1e5+7;
 const int MOD = 1e9 + 7;
     
 #define pb push_back
@@ -37,14 +37,12 @@ int main(){
    while(t--){
        int n;
        cin>>n;
-       for(int i=1;i<=n;i++){
+       bool has = false;
+       for(int i=0;i<n;i++){
            cin>>v[i];
+           if(i > 0) has = (has || v[i-1] >= v[i]);
        }
-       int mx = 0;
-       for(int i=1;i<=n;i++){
-           mx = max(mx,v[i]-i);
-       }
-       cout<<mx<<endl;
+       cout<<(n&1 && !has ? "NO" : "YES")<<endl;
    }
    return 0;
 }

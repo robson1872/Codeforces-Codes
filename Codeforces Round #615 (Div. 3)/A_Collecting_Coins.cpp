@@ -6,7 +6,7 @@ const int INF = 0x3f3f3f3f;
 const ll LINF = 0x3f3f3f3f3f3f3f3fll;
 using vi = vector<int>;
 using vll = vector<ll>;
-const int MAXN = 2e2+7;
+const int MAXN = 2e5+7;
 const int MOD = 1e9 + 7;
     
 #define pb push_back
@@ -29,22 +29,29 @@ const int dy[] = {0, 1, 0, -1, -1, 1, -1, 1};
     
 //interactive problems use *fflush(stdout);* at the end of the function; and delete the first line of the main fuction
 int t;
-int v[MAXN];
 int main(){
    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
    //freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
    cin>>t;
    while(t--){
        int n;
-       cin>>n;
-       for(int i=1;i<=n;i++){
+       vi v (3);
+       int s = 0;
+       for(int i=0;i<3;i++){
            cin>>v[i];
+           s+=v[i];
        }
-       int mx = 0;
-       for(int i=1;i<=n;i++){
-           mx = max(mx,v[i]-i);
+       cin>>n;
+       s+=n;
+       bool ans = true;
+       sort(all(v));
+       if(s%3) ans = false;
+       s/=3;
+       for(int i=0;i<3 && ans;i++){
+           if(v[i] > s || (n - (s - v[i])) < 0) ans = false;
+           n -= (s - v[i]);
        }
-       cout<<mx<<endl;
+       cout<<(ans ? "YES ": "NO")<<endl;
    }
    return 0;
 }

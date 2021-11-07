@@ -6,7 +6,7 @@ const int INF = 0x3f3f3f3f;
 const ll LINF = 0x3f3f3f3f3f3f3f3fll;
 using vi = vector<int>;
 using vll = vector<ll>;
-const int MAXN = 2e2+7;
+const int MAXN = 4e5+7;
 const int MOD = 1e9 + 7;
     
 #define pb push_back
@@ -28,23 +28,25 @@ const int dx[] = {-1, 0, 1, 0, -1, -1, 1, 1};
 const int dy[] = {0, 1, 0, -1, -1, 1, -1, 1};
     
 //interactive problems use *fflush(stdout);* at the end of the function; and delete the first line of the main fuction
-int t;
-int v[MAXN];
+int t,x;
+int f[MAXN];
 int main(){
    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
    //freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
-   cin>>t;
+   cin>>t>>x;
+   set<pii>frq;
+   for(int i=0;i<x;i++){
+      frq.insert({f[i],i});
+   }
    while(t--){
-       int n;
-       cin>>n;
-       for(int i=1;i<=n;i++){
-           cin>>v[i];
-       }
-       int mx = 0;
-       for(int i=1;i<=n;i++){
-           mx = max(mx,v[i]-i);
-       }
-       cout<<mx<<endl;
+      int k;
+      cin>>k;
+      k %= x;
+      frq.erase({f[k], k});
+      frq.insert({++f[k],k});
+      pii u = *frq.begin();
+      int ans = u.fi*x + u.se;
+      cout<<ans<<endl;
    }
    return 0;
 }
