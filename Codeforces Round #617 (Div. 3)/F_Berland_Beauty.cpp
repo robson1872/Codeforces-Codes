@@ -27,11 +27,11 @@ using pll = pair<ll,ll>;
     
 const int dx[] = {-1, 0, 1, 0, -1, -1, 1, 1};
 const int dy[] = {0, 1, 0, -1, -1, 1, -1, 1};
-    
 //interactive problems use *fflush(stdout);* at the end of the function; and delete the first line of the main fuction
 int t;
 vi adj[MAXN];
-map<pii,int> ans;
+//map<pii,int> ans;
+int ans[MAXN][MAXN];
 int vst[MAXN];
 int minn = INF;
 bool dfs(int b, int e, int val){
@@ -39,13 +39,13 @@ bool dfs(int b, int e, int val){
         return true;
     }
     bool find = false;
-    for(auto v :adj[b]){
+    for(auto v : adj[b]){
         if(vst[v]) continue;
         vst[v]++;
         if(dfs(v,e,val)){
             find = true;
             pii curr = {min(v,b),max(v,b)};
-            ans[curr] = max(ans[curr],val);
+            ans[curr.fi][curr.se] = max(ans[curr.fi][curr.se],val);
         }
     }
     return find;
@@ -61,8 +61,8 @@ bool dfs2(int b, int e){
         if(dfs2(v,e)){
             find = true;
             pii curr = {min(v,b),max(v,b)};
-            if(ans[curr] != 0){
-                minn = min(minn,ans[curr]);
+            if(ans[curr.fi][curr.se] != 0){
+                minn = min(minn,ans[curr.fi][curr.se]);
             }
         }
     }
@@ -82,7 +82,6 @@ int main(){
            adj[x].pb(y); adj[y].pb(x);
            pii curr = {min(x,y),max(x,y)};
            edges.pb(curr);
-           ans[curr] = 0;
        }
        int m;
        cin>>m;
@@ -104,18 +103,19 @@ int main(){
        for(auto k : q){
            memset(vst,0,sizeof(vst));
            minn = INF;
+           vst[k.fi.fi]++;
            dfs2(k.fi.fi,k.fi.se);
            if(k.se != minn){
                valid = false;
            }
        }
        if(!valid){
-           cout<<-1<<endl;
+           cout<<-1<<"\n";
        }else{
            for(auto k : edges){
-               cout<<(ans[k] > 0 ? ans[k] : 1000000)<<" ";
+               cout<<(ans[k.fi][k.se] > 0 ? ans[k.fi][k.se] : 1000000)<<" ";
            }
-           cout<<endl;
+           cout<<"\n";
        }
    }
    return 0;
