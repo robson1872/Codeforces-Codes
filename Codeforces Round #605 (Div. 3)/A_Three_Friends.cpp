@@ -30,32 +30,28 @@ const int dy[] = {0, 1, 0, -1, -1, 1, -1, 1};
     
 //interactive problems use *fflush(stdout);* at the end of the function; and delete the first line of the main fuction
 int t;
+int poss[] = {-1,1,0};
+ll func(int a, int b, int c){
+    ll ans = abs(a - b) + abs( b- c) + abs(c - a);
+    return ans; 
+}
 int main(){
    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
    //freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
-   t  = 1;
+   cin>>t;
    while(t--){
-      ll u,v;
-      cin>>u>>v;
-      if(u > v || (u%2 != v%2) ){
-         cout<<-1<<endl;
-      }else if(u == v){
-         if(u == 0){
-            cout<<0<<endl;
-         }else{
-            cout<<1<<endl;
-            cout<<u<<endl;
-         }
-      }else{
-         ll x = (v - u)/2;
-         if(u&x){
-            cout<<3<<endl;
-            cout<<u<<" "<<x<<" "<<x<<endl;
-         }else{
-            cout<<2<<endl;
-            cout<<(u+x)<<" "<<x<<endl;
-         }
-      }
+       int a,b,c;
+       cin>>a>>b>>c;
+       ll ans = LINF;
+       for(int i = 0;i<=2;i++){
+           for(int j = 0; j<=2;j++){
+               for(int z = 0;z<=2;z++){
+                   ll ax = a + poss[i],bx = b + poss[j],cx = c + poss[z];
+                   ans = min(ans,func(ax,bx,cx));
+               }
+           }
+       }
+       cout<<ans<<endl;
    }
    return 0;
 }

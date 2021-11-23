@@ -30,32 +30,43 @@ const int dy[] = {0, 1, 0, -1, -1, 1, -1, 1};
     
 //interactive problems use *fflush(stdout);* at the end of the function; and delete the first line of the main fuction
 int t;
+bool comp(pii a, pii b){
+    if(a.fi == b.fi){
+        return a.se > b.se; 
+    }
+    return a.fi < b.fi;
+}
 int main(){
    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
    //freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
-   t  = 1;
+   cin>>t;
    while(t--){
-      ll u,v;
-      cin>>u>>v;
-      if(u > v || (u%2 != v%2) ){
-         cout<<-1<<endl;
-      }else if(u == v){
-         if(u == 0){
-            cout<<0<<endl;
-         }else{
-            cout<<1<<endl;
-            cout<<u<<endl;
-         }
-      }else{
-         ll x = (v - u)/2;
-         if(u&x){
-            cout<<3<<endl;
-            cout<<u<<" "<<x<<" "<<x<<endl;
-         }else{
-            cout<<2<<endl;
-            cout<<(u+x)<<" "<<x<<endl;
-         }
-      }
+       int n,m;
+       cin>>n>>m;
+       vector<pii> a(n*m+1);
+       for(int i=1;i<=n*m;i++){
+           cin>>a[i].fi;
+           a[i].se = i;
+       }
+       sort(all(a));
+       ll ans = 0;
+       for(int i=0;i<n;i++){
+           vi aux;
+           sort(a.begin() + i*m+1,a.begin() + i*m + m + 1,comp);
+           for(int j=1;j<=m;j++){
+               aux.pb(a[i*m + j].se);
+           }
+           ll curr = 0;
+           for(int j=0;j<m;j++){
+               for(int k = j - 1; k >= 0 ; k--){
+                   if(aux[k] < aux[j]){
+                       curr++;
+                   }
+               }
+           }
+           ans += curr;
+       }
+       cout<<ans<<endl;
    }
    return 0;
 }

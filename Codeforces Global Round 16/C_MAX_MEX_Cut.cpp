@@ -33,29 +33,31 @@ int t;
 int main(){
    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
    //freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
-   t  = 1;
+   cin>>t;
    while(t--){
-      ll u,v;
-      cin>>u>>v;
-      if(u > v || (u%2 != v%2) ){
-         cout<<-1<<endl;
-      }else if(u == v){
-         if(u == 0){
-            cout<<0<<endl;
-         }else{
-            cout<<1<<endl;
-            cout<<u<<endl;
-         }
-      }else{
-         ll x = (v - u)/2;
-         if(u&x){
-            cout<<3<<endl;
-            cout<<u<<" "<<x<<" "<<x<<endl;
-         }else{
-            cout<<2<<endl;
-            cout<<(u+x)<<" "<<x<<endl;
-         }
-      }
+       int n;
+       cin>>n;
+       string s,b;
+       cin>>s>>b;
+       ll ans = 0;
+       for(int i=0;i<n;i++){
+           if(s[i] != b[i]){
+               ans+=2;
+           }else if(s[i] == '0'){
+               if(i < n - 1 && (s[i+1] == b[i+1] && s[i+1] == '1')){
+                   ans+=2;
+                   i++;
+               }else{
+                   ans++;
+               }
+           }else if(s[i] == '1'){
+               if(i < n - 1 && (s[i+1] == b[i+1] && s[i+1] == '0')){
+                   ans+=2;
+                   i++;
+               }
+           }
+       }
+       cout<<ans<<endl;
    }
    return 0;
 }

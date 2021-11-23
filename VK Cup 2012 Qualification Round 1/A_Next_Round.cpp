@@ -33,29 +33,22 @@ int t;
 int main(){
    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
    //freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
-   t  = 1;
+   t = 1;
    while(t--){
-      ll u,v;
-      cin>>u>>v;
-      if(u > v || (u%2 != v%2) ){
-         cout<<-1<<endl;
-      }else if(u == v){
-         if(u == 0){
-            cout<<0<<endl;
-         }else{
-            cout<<1<<endl;
-            cout<<u<<endl;
-         }
-      }else{
-         ll x = (v - u)/2;
-         if(u&x){
-            cout<<3<<endl;
-            cout<<u<<" "<<x<<" "<<x<<endl;
-         }else{
-            cout<<2<<endl;
-            cout<<(u+x)<<" "<<x<<endl;
-         }
-      }
+       int n,k;
+       cin>>n>>k;
+       int ans = 0;
+       vi a(n);
+       for(int i=0;i<n;i++){
+           cin>>a[i];
+       }
+       int p = a[k-1];
+       for(int i=0;i<n;i++){
+           if(a[i] >= p && a[i] > 0){
+               ans++;
+           }
+       }
+       cout<<ans<<endl;
    }
    return 0;
 }

@@ -33,29 +33,44 @@ int t;
 int main(){
    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
    //freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
-   t  = 1;
+   t = 1;
    while(t--){
-      ll u,v;
-      cin>>u>>v;
-      if(u > v || (u%2 != v%2) ){
-         cout<<-1<<endl;
-      }else if(u == v){
-         if(u == 0){
-            cout<<0<<endl;
-         }else{
-            cout<<1<<endl;
-            cout<<u<<endl;
-         }
-      }else{
-         ll x = (v - u)/2;
-         if(u&x){
-            cout<<3<<endl;
-            cout<<u<<" "<<x<<" "<<x<<endl;
-         }else{
-            cout<<2<<endl;
-            cout<<(u+x)<<" "<<x<<endl;
-         }
-      }
+       int n;
+       cin>>n;
+       vi a(n+2);
+       vi pfx(n+2);
+       vi sfx(n+2);
+       int ans = 1;
+       int aux = 1;
+       for(int i = 1; i<= n; i++){
+           cin>>a[i];
+           if(i > 1 && a[i] > a[i-1]){
+               aux++;
+               ans = max(ans,aux);
+               pfx[i] = aux;
+           }else{
+               aux = 1;
+               pfx[i] = 1;
+           }
+       }
+       aux = 1;
+       for(int i = n; i >= 1;i--){
+           if(i < n && a[i] < a[i+1]){
+               aux++;
+               sfx[i] = aux;
+           }else{
+               aux = 1;
+               sfx[i] = aux;
+           }
+       }
+       for(int i=2;i<=n-1;i++){
+           int curr = 1;
+           if(a[i-1] < a[i+1]){
+               curr = pfx[i-1] + sfx[i+1];
+           }
+           ans = max(ans,curr);
+       }
+       cout<<ans<<endl;
    }
    return 0;
 }

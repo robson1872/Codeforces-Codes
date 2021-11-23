@@ -29,33 +29,50 @@ const int dx[] = {-1, 0, 1, 0, -1, -1, 1, 1};
 const int dy[] = {0, 1, 0, -1, -1, 1, -1, 1};
     
 //interactive problems use *fflush(stdout);* at the end of the function; and delete the first line of the main fuction
-int t;
+vi adj[MAXN];
+int a[MAXN],ans[MAXN];
+int n;
+bool f(int i, int j){
+    return (i&1) != (j&1);
+}
+void bfs(){
+    queue<int> q;
+    for(int i=1;i<=n;i++){
+       if(ans[i]==1) q.push(i);
+   }
+   while(!q.empty()){
+       int curr = q.front(); q.pop();
+       for(auto u: adj[curr]){
+           if(ans[u] == -1){
+               ans[u] = ans[curr] + 1;
+               q.push(u);
+           }
+       }
+   }
+}
 int main(){
    ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
    //freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
-   t  = 1;
-   while(t--){
-      ll u,v;
-      cin>>u>>v;
-      if(u > v || (u%2 != v%2) ){
-         cout<<-1<<endl;
-      }else if(u == v){
-         if(u == 0){
-            cout<<0<<endl;
-         }else{
-            cout<<1<<endl;
-            cout<<u<<endl;
-         }
-      }else{
-         ll x = (v - u)/2;
-         if(u&x){
-            cout<<3<<endl;
-            cout<<u<<" "<<x<<" "<<x<<endl;
-         }else{
-            cout<<2<<endl;
-            cout<<(u+x)<<" "<<x<<endl;
-         }
-      }
+   cin>>n;
+   memset(ans,-1,sizeof(ans));
+   for(int i=1;i<=n;i++){
+       cin>>a[i];
    }
+   for(int i=1;i<=n;i++){
+       int p = i + a[i], w = i - a[i];
+       if(p <= n){
+           adj[p].pb(i);
+           if( f(a[p], a[i]) )ans[i] = 1;
+       } 
+       if(w >= 1){
+           adj[w].pb(i);
+           if( f(a[w], a[i]) ) ans[i] = 1;
+       } 
+   }
+   bfs();
+   for(int i=1;i<=n;i++){
+       cout<<ans[i]<<" ";
+   }
+   cout<<endl;
    return 0;
 }
